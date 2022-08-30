@@ -87,11 +87,11 @@
    console.log(processedStory);
    const madlibsEdit = document.querySelector('.madLibsEdit')
    const madlibsPrev = document.querySelector('.madLibsPreview')
-   
+   let emptyArray = [];
    for (let x = 0; x < processedStory.length; x++){
      let getWord = processedStory[x].word
      // console.log(getWord)
-    
+     
      if (processedStory[x].pos){
        const output = document.createElement('span')
        const placeholder = processedStory[x].pos;
@@ -106,9 +106,9 @@
        input.classList.add("editInput")
        madlibsEdit.appendChild(input)
        input.setAttribute("placeholder", processedStory[x].pos)
-     // input.oninput = () => {
-     //   output.innerText = input.value;
-     // }
+       input.setAttribute("id",`input-${emptyArray.length + 1}`)
+       emptyArray.push(input)
+     
        input.addEventListener('input', (e) => {
          
          if(input.value.length > 0){
@@ -119,31 +119,23 @@
            output.innerText = " " + placeholder;
          }
        })
-     input.addEventListener('keydown', (e) => {
-       if (e.keyCode == 13 ) { //13 means "enter"
-         let nextInput = input
+    
+
+ 
+
+ input.addEventListener('keydown', (e) => {
+  if (e.keyCode === 13) {
+    // console.log(e.target.id)
+    const id =e.target.id.split('-')
+    const nextId = Number(id[1])+1
+    // console.log(id[0])
+    document.querySelector(`#input-${nextId}`).focus()
+  }
+ })
+
    
-         if (!nextInput) { // iterates when there is a next input box through enter. Wriitng it this way is easier bc it is the default condition that we look for for our purpose. 
-   
-           
-           return nextInput.focus()
-         }
-       }
-     })
-     //   if(e.keyCode === 13){
-     //     console.log(e)
-     //     let next = input.nextElementSibling;
-     //     if(next != null){
-     //       console.log(next);
-     //       if (next.nodeName === 'INPUT'){
-           
-     //       next.focus();
-     //      }
-     //     } else {
-     //       alert ('Done!')
-     //     }
-     //   }
-     // })
+      
+
        if(processedStory[x].punc !== undefined){
          const punctuationOutput = document.createElement("span")
          punctuationOutput.innerText = processedStory[x].punc
